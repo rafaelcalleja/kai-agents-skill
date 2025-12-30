@@ -1,0 +1,11 @@
+{
+  "name": "kai-agents-skill",
+  "description": "Dynamic agent composition and orchestration system - create custom agents with unique personalities, voices, and trait combinations on-the-fly",
+  "owner": {"name": "rafaelcalleja"},
+  "plugins": [{
+    "name": "kai-agents-skill",
+    "version": "1.0.0",
+    "description": "Dynamic agent composition and orchestration system - create custom agents with unique personalities, voices, and trait combinations on-the-fly",
+    "source": "./"
+  }]
+}
