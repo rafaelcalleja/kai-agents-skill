@@ -1,13 +1,13 @@
-# kai-agents-skill
+# Kai Agents Skill
 
 Dynamic agent composition and orchestration system - create custom agents with unique personalities, voices, and trait combinations on-the-fly.
 
 ## Features
 
-- **Hybrid Agent Model** - Named agents for recurring work, dynamic agents for one-off tasks
-- **Trait Composition** - 800 unique agent combinations (10 expertise × 10 personality × 8 approach)
-- **Voice Mapping** - Automatic voice assignment based on personality traits
-- **Parallel Orchestration** - Launch multiple custom agents simultaneously
+- **800 Agent Combinations**: Compose agents from 10 expertise, 10 personality, and 8 approach traits
+- **Hybrid Agent Model**: Named agents (persistent) + Dynamic agents (task-specific)
+- **Voice Mapping**: Each trait combination maps to a distinct voice
+- **AgentFactory CLI**: Compose agents programmatically with trait inference
 
 ## Installation
 
@@ -31,99 +31,79 @@ claude --plugin-dir ./kai-agents-skill
 
 Once installed, test with:
 
-- Ask: *"create custom agents to research this topic"* → activates the agents skill
-- Ask: *"what agent traits are available?"* → lists all 28 composable traits
-- Ask: *"spin up custom security agents"* → creates specialized security agents
+- Ask: "create custom agents to research this topic" → activates the agents skill
+- Ask: "what agent traits are available?" → lists all 28 composable traits
+- Ask: "spin up custom security agents" → creates specialized security agents
 
-## Trigger Phrases
+## Prerequisites
 
-- "create custom agents"
-- "spin up custom agents"
-- "specialized agents"
-- "agent personalities"
-- "available traits"
-- "agent voices"
+- **Bun runtime**: `curl -fsSL https://bun.sh/install | bash`
+- **Claude Code** (or compatible agent system)
+
+### Install Dependencies
+
+```bash
+cd skills/Agents/Tools
+bun add yaml handlebars
+```
 
 ## Usage
 
-### Create Custom Agents
+### Natural Language
 
-```
-User: Create 3 custom research agents to analyze this market
+Just ask naturally:
+- "Create a custom security agent"
+- "Spin up 5 custom science agents"
+- "List available agent traits"
+- "I need a skeptical legal expert"
 
-Result: 3 agents with unique personalities:
-- Agent 1: research + enthusiastic + exploratory → Energetic voice
-- Agent 2: research + skeptical + thorough → Academic voice
-- Agent 3: research + analytical + comparative → Professional voice
-```
+### AgentFactory CLI
 
-### List Available Traits
+```bash
+# List all available traits
+bun run skills/Agents/Tools/AgentFactory.ts --list
 
-```
-User: What agent traits are available?
+# Compose agent by traits
+bun run skills/Agents/Tools/AgentFactory.ts --traits "security,skeptical,thorough"
 
-Result: Lists all 28 composable traits:
-- 10 Expertise areas (security, legal, finance, etc.)
-- 10 Personality dimensions (skeptical, enthusiastic, etc.)
-- 8 Approach styles (thorough, rapid, systematic, etc.)
-```
-
-### Security Red Team
-
-```
-User: Spin up custom security agents to red team this architecture
-
-Result: 3 security-focused agents with different attack perspectives:
-- Agent 1: security + adversarial + bold → Intense voice
-- Agent 2: security + skeptical + meticulous → Gritty voice
-- Agent 3: security + contrarian + systematic → Academic voice
+# Infer traits from task
+bun run skills/Agents/Tools/AgentFactory.ts --task "Review this API for vulnerabilities"
 ```
 
-## Trait Categories
+## Trait System
 
-### Expertise (10)
-Domain knowledge: security, legal, finance, medical, technical, research, creative, business, data, communications
+Agents are composed from three categories:
 
-### Personality (10)
-Behavioral style: skeptical, enthusiastic, cautious, bold, analytical, creative, empathetic, contrarian, pragmatic, meticulous
+| Category | Options |
+|----------|---------|
+| **Expertise** | security, legal, finance, medical, technical, research, creative, business, data, communications |
+| **Personality** | skeptical, enthusiastic, cautious, bold, analytical, creative, empathetic, contrarian, pragmatic, meticulous |
+| **Approach** | thorough, rapid, systematic, exploratory, comparative, synthesizing, adversarial, consultative |
 
-### Approach (8)
-Work style: thorough, rapid, systematic, exploratory, comparative, synthesizing, adversarial, consultative
+## Components
 
-## Voice Integration
+| Component | File | Purpose |
+|-----------|------|---------|
+| Agents skill | `skills/Agents/SKILL.md` | Routing and triggers |
+| Agent factory | `skills/Agents/Tools/AgentFactory.ts` | Dynamic composition |
+| Trait definitions | `skills/Agents/Data/Traits.yaml` | Expertise, personality, approach |
+| Agent template | `skills/Agents/Templates/DynamicAgent.hbs` | Prompt generation |
+| Create agent | `skills/Agents/Workflows/CreateCustomAgent.md` | Custom agent workflow |
+| List traits | `skills/Agents/Workflows/ListTraits.md` | Show available traits |
+| Personalities | `skills/Agents/AgentPersonalities.md` | Named agent examples |
 
-When integrated with a TTS system, each agent gets a distinct voice based on their traits:
+## Version
 
-| Personality | Voice Character |
-|-------------|-----------------|
-| Skeptical + Analytical | Academic warmth |
-| Enthusiastic + Creative | High-energy dynamic |
-| Cautious + Meticulous | Measured professional |
-| Security + Adversarial | Intense gravelly |
+- **Current**: 1.1.0
+- **Author**: danielmiessler
 
-## Directory Structure
+## Changelog
 
-```
-kai-agents-skill/
-├── .claude-plugin/
-│   └── marketplace.json
-├── plugin.json
-├── skills/
-│   └── kai-agents-skill/
-│       ├── SKILL.md
-│       └── references/
-│           ├── traits.md
-│           ├── voice-mappings.md
-│           ├── create-custom-agent-workflow.md
-│           └── named-agents.md
-└── README.md
-```
+### 1.1.0
+- Custom agents now use `subagent_type: "general-purpose"` instead of "Intern"
+- Added constitutional rule for custom agent creation
 
-## Works Well With
-
-- **kai-voice-system** - Agents automatically use voice IDs for TTS notifications
-- **kai-observability-server** - Track agent spawning and outputs in real-time
-
-## Credits
-
-Based on the kai-agents-skill pack from [Personal AI Infrastructure](https://github.com/danielmiessler/fabric) by Daniel Miessler.
+### 1.0.0
+- Initial release
+- 28 composable traits
+- AgentFactory CLI tool
