@@ -28,19 +28,19 @@ Extract from user's request:
 # Example for 3 custom research agents:
 
 # Agent 1 - Enthusiastic Explorer
-bun run $PAI_DIR/skills/Agents/Tools/AgentFactory.ts \
+bun run ${CLAUDE_PLUGIN_ROOT}/skills/Agents/Tools/AgentFactory.ts \
   --traits "research,enthusiastic,exploratory" \
   --task "Research quantum computing" \
   --output json
 
 # Agent 2 - Skeptical Analyst
-bun run $PAI_DIR/skills/Agents/Tools/AgentFactory.ts \
+bun run ${CLAUDE_PLUGIN_ROOT}/skills/Agents/Tools/AgentFactory.ts \
   --traits "research,skeptical,systematic" \
   --task "Research quantum computing" \
   --output json
 
 # Agent 3 - Thorough Synthesizer
-bun run $PAI_DIR/skills/Agents/Tools/AgentFactory.ts \
+bun run ${CLAUDE_PLUGIN_ROOT}/skills/Agents/Tools/AgentFactory.ts \
   --traits "research,analytical,synthesizing" \
   --task "Research quantum computing" \
   --output json

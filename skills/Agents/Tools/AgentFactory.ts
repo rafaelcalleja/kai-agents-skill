@@ -18,10 +18,10 @@ import { readFileSync, existsSync } from "fs";
 import { parse as parseYaml } from "yaml";
 import Handlebars from "handlebars";
 
-// Paths - adjust PAI_DIR as needed
-const PAI_DIR = process.env.PAI_DIR || `${process.env.HOME}/.config/pai`;
-const TRAITS_PATH = `${PAI_DIR}/skills/Agents/Data/Traits.yaml`;
-const TEMPLATE_PATH = `${PAI_DIR}/skills/Agents/Templates/DynamicAgent.hbs`;
+// Paths - uses CLAUDE_PLUGIN_ROOT for portability across plugin installations
+const PLUGIN_ROOT = process.env.CLAUDE_PLUGIN_ROOT || `${import.meta.dir}/..`;
+const TRAITS_PATH = `${PLUGIN_ROOT}/Data/Traits.yaml`;
+const TEMPLATE_PATH = `${PLUGIN_ROOT}/Templates/DynamicAgent.hbs`;
 
 // Types
 interface TraitDefinition {

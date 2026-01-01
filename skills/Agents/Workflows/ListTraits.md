@@ -14,7 +14,7 @@ User asks:
 Run AgentFactory with --list flag:
 
 ```bash
-bun run $PAI_DIR/skills/Agents/Tools/AgentFactory.ts --list
+bun run ${CLAUDE_PLUGIN_ROOT}/skills/Agents/Tools/AgentFactory.ts --list
 ```
 
 ## Output

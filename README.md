@@ -1,13 +1,17 @@
-# Kai Agents Skill
+# kai-agents-skill
 
-Dynamic agent composition and orchestration system - create custom agents with unique personalities, voices, and trait combinations on-the-fly.
+> Dynamic agent composition system - create specialized agents with unique personalities and voices, composed from traits on-the-fly
+
+Create custom agents by combining expertise, personality, and approach traits. 800 unique agent combinations possible.
 
 ## Features
 
-- **800 Agent Combinations**: Compose agents from 10 expertise, 10 personality, and 8 approach traits
-- **Hybrid Agent Model**: Named agents (persistent) + Dynamic agents (task-specific)
-- **Voice Mapping**: Each trait combination maps to a distinct voice
-- **AgentFactory CLI**: Compose agents programmatically with trait inference
+- **28 Composable Traits** - 10 expertise, 10 personality, 8 approach
+- **Hybrid Agent Model** - Named agents (persistent) + Dynamic agents (task-specific)
+- **Voice Mapping** - Each trait combination maps to a distinct voice
+- **AgentFactory CLI** - Compose agents programmatically with trait inference
+
+**Core Philosophy:** Cognitive diversity through composable agent personalities. Every analysis benefits from multiple perspectives.
 
 ## Installation
 
@@ -27,25 +31,39 @@ git clone https://github.com/rafaelcalleja/kai-agents-skill.git
 claude --plugin-dir ./kai-agents-skill
 ```
 
+### Option 3: CLI Tools Only
+
+```bash
+cd kai-agents-skill/skills/Agents/Tools
+bun install
+```
+
 ## Verify Installation
 
 Once installed, test with:
 
-- Ask: "create custom agents to research this topic" → activates the agents skill
-- Ask: "what agent traits are available?" → lists all 28 composable traits
-- Ask: "spin up custom security agents" → creates specialized security agents
+- Ask: *"create custom agents to research this topic"* → activates the agents skill
+- Ask: *"what agent traits are available?"* → lists all 28 composable traits
+- Ask: *"spin up custom security agents"* → creates specialized security agents
 
-## Prerequisites
+## Components
 
-- **Bun runtime**: `curl -fsSL https://bun.sh/install | bash`
-- **Claude Code** (or compatible agent system)
+### Skill: Agents
 
-### Install Dependencies
+Provides dynamic agent composition. Triggers on:
+- "create custom agents", "spin up agents"
+- "specialized agents", "agent personalities"
+- "list available traits", "agent voices"
 
-```bash
-cd skills/Agents/Tools
-bun add yaml handlebars
-```
+### Trait Categories
+
+| Category | Count | Options |
+|----------|-------|---------|
+| **Expertise** | 10 | security, legal, finance, medical, technical, research, creative, business, data, communications |
+| **Personality** | 10 | skeptical, enthusiastic, cautious, bold, analytical, creative, empathetic, contrarian, pragmatic, meticulous |
+| **Approach** | 8 | thorough, rapid, systematic, exploratory, comparative, synthesizing, adversarial, consultative |
+
+**Total combinations:** 10 x 10 x 8 = **800 unique agents**
 
 ## Usage
 
@@ -53,57 +71,72 @@ bun add yaml handlebars
 
 Just ask naturally:
 - "Create a custom security agent"
-- "Spin up 5 custom science agents"
-- "List available agent traits"
 - "I need a skeptical legal expert"
+- "Spin up 3 research agents with different approaches"
 
 ### AgentFactory CLI
 
 ```bash
+cd skills/Agents/Tools
+
 # List all available traits
-bun run skills/Agents/Tools/AgentFactory.ts --list
+bun run AgentFactory.ts --list
 
 # Compose agent by traits
-bun run skills/Agents/Tools/AgentFactory.ts --traits "security,skeptical,thorough"
+bun run AgentFactory.ts --traits "security,skeptical,thorough"
 
 # Infer traits from task
-bun run skills/Agents/Tools/AgentFactory.ts --task "Review this API for vulnerabilities"
+bun run AgentFactory.ts --task "Review this API for vulnerabilities"
 ```
 
-## Trait System
+## Directory Structure
 
-Agents are composed from three categories:
+```
+kai-agents-skill/
+├── .claude-plugin/
+│   ├── marketplace.json
+│   └── plugin.json
+├── skills/
+│   └── Agents/
+│       ├── SKILL.md
+│       ├── AgentPersonalities.md
+│       ├── Data/
+│       │   └── Traits.yaml
+│       ├── Templates/
+│       │   └── DynamicAgent.hbs
+│       ├── Tools/
+│       │   └── AgentFactory.ts
+│       └── Workflows/
+│           ├── CreateCustomAgent.md
+│           └── ListTraits.md
+└── README.md
+```
 
-| Category | Options |
-|----------|---------|
-| **Expertise** | security, legal, finance, medical, technical, research, creative, business, data, communications |
-| **Personality** | skeptical, enthusiastic, cautious, bold, analytical, creative, empathetic, contrarian, pragmatic, meticulous |
-| **Approach** | thorough, rapid, systematic, exploratory, comparative, synthesizing, adversarial, consultative |
+## Credits
 
-## Components
+- **Origin:** Based on [kai-agents-skill pack](https://github.com/danielmiessler/Personal_AI_Infrastructure) by Daniel Miessler
+- **License:** MIT
 
-| Component | File | Purpose |
-|-----------|------|---------|
-| Agents skill | `skills/Agents/SKILL.md` | Routing and triggers |
-| Agent factory | `skills/Agents/Tools/AgentFactory.ts` | Dynamic composition |
-| Trait definitions | `skills/Agents/Data/Traits.yaml` | Expertise, personality, approach |
-| Agent template | `skills/Agents/Templates/DynamicAgent.hbs` | Prompt generation |
-| Create agent | `skills/Agents/Workflows/CreateCustomAgent.md` | Custom agent workflow |
-| List traits | `skills/Agents/Workflows/ListTraits.md` | Show available traits |
-| Personalities | `skills/Agents/AgentPersonalities.md` | Named agent examples |
+### Acknowledgments
 
-## Version
-
-- **Current**: 1.1.0
-- **Author**: danielmiessler
+- **Daniel Miessler** - Original PAI architecture and agent concepts
+- **IndyDevDan** - Trait composition patterns and voice mapping
+- **Anthropic** - Claude 4.x agent capabilities
 
 ## Changelog
 
-### 1.1.0
-- Custom agents now use `subagent_type: "general-purpose"` instead of "Intern"
-- Added constitutional rule for custom agent creation
+### v1.1.0 (2026-01-01)
 
-### 1.0.0
+Synced with standard plugin structure:
+
+- **BREAKING**: Moved `plugin.json` to `.claude-plugin/` directory
+- Updated paths to use `CLAUDE_PLUGIN_ROOT` for portability
+- Custom agents now use `subagent_type: "general-purpose"` instead of "Intern"
+- Removed `.claude/settings.local.json`
+
+### v1.0.0
+
 - Initial release
-- 28 composable traits
-- AgentFactory CLI tool
+- 28 composable traits (10 expertise, 10 personality, 8 approach)
+- AgentFactory CLI tool with trait inference
+- Hybrid agent model (named + dynamic)
